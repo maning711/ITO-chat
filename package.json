@@ -1,0 +1,15 @@
+{
+  "name": "technode",
+  "version": "1.0.0",
+  "description": "chat with everyone",
+  "main": "app.js",
+  "dependencies": {
+    "express": "*",
+    "socket.io": "*"
+  },
+  "keywords": [
+    "maning"
+  ],
+  "author": "maning",
+  "license": "ISC"
+}
