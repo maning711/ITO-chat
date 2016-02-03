@@ -1,18 +1,36 @@
-<!doctype>
+<!doctype html>
 <html>
   <head>
-    <title>technode</title>
-    <link rel="stylesheet" type="text/css" href="/bower_components/bootstrap/dist/css/bootstrap.css">
-    <script type="text/javascript" src="/bower_components/jquery/dist/jquery.js"></script>
+    <title>technode</title>.
+    <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/styles/room.css">
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/bower_components/angular/angular.js"></script>
+    <script type="text/javascript" src="/components/jquery/dist/jquery.js"></script>
+    <script type="text/javascript" src="/components/bootstrap/dist/js/bootstrap.js"></script>
+    <script type="text/javascript" src="/components/angular/angular.js"></script>
   </head>
-  <body>
-    <script type="text/javascript">
-      var socket = io.connect('/');
-      socket.on('connected', function () {
-          alert('connected to technode!');
-      });
-    </script>
+  <body np-app="technodeApp">
+    <div class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">technode</a>
+        </div>
+      </div>
+    </div>
+    <div class="container" style="margin-top:100px;">
+      <div class="col-md-12">
+        <div class="panel panel-default room" ng-controller="RoomCtrl">
+          <div class="panel-heading room-header">technode</div>
+          <div class="panel-body room-content">
+            <div class="list-group messages"></div>
+            <form class="messages-creator">
+              <div class="form-group">
+                <textarea required class="form-control message-input" placeholder="Ctrl + Enter to quick send"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>
