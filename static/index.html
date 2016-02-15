@@ -22,10 +22,19 @@
         <div class="panel panel-default room" ng-controller="RoomCtrl">
           <div class="panel-heading room-header">technode</div>
           <div class="panel-body room-content">
-            <div class="list-group messages"></div>
-            <form class="messages-creator">
+            <div class="list-group messages" auto-scroll-to-bottom>
+              <div class="list-grounp-item messages"
+                ng-repeat="message in messages">
+                匿名：{{message}}
+              </div>
+            </div>
+            <form class="messages-creator"
+              ng-controller="MessageCreatorCtrl">
               <div class="form-group">
-                <textarea required class="form-control message-input" placeholder="Ctrl + Enter to quick send"></textarea>
+                <textarea required class="form-control message-input"
+                  ng-modal="newMessage"
+                  ctrl-enter-break-line="createMessage()"
+                  placeholder="Ctrl + Enter to quick send"></textarea>
               </div>
             </form>
           </div>
