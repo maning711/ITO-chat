@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html np-app="technodeApp">
   <head>
     <title>technode</title>.
     <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
@@ -9,7 +9,7 @@
     <script type="text/javascript" src="/components/bootstrap/dist/js/bootstrap.js"></script>
     <script type="text/javascript" src="/components/angular/angular.js"></script>
   </head>
-  <body np-app="technodeApp">
+  <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -23,12 +23,12 @@
           <div class="panel-heading room-header">technode</div>
           <div class="panel-body room-content">
             <div class="list-group messages" auto-scroll-to-bottom>
-              <div class="list-grounp-item messages"
+              <div class="list-group-item message"
                 ng-repeat="message in messages">
                 匿名：{{message}}
               </div>
             </div>
-            <form class="messages-creator"
+            <form class="message-creator"
               ng-controller="MessageCreatorCtrl">
               <div class="form-group">
                 <textarea required class="form-control message-input"
@@ -41,5 +41,6 @@
         </div>
       </div>
     </div>
+    <script type="text/javascript" src="/technode.js"></script>
   </body>
 </html>
