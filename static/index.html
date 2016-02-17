@@ -1,5 +1,5 @@
 <!doctype html>
-<html np-app="technodeApp">
+<html ng-app="technodeApp">
   <head>
     <title>technode</title>.
     <link rel="stylesheet" type="text/css" href="/components/bootstrap/dist/css/bootstrap.css">
@@ -32,7 +32,7 @@
               ng-controller="MessageCreatorCtrl">
               <div class="form-group">
                 <textarea required class="form-control message-input"
-                  ng-modal="newMessage"
+                  ng-model="newMessage"
                   ctrl-enter-break-line="createMessage()"
                   placeholder="Ctrl + Enter to quick send"></textarea>
               </div>

@@ -57,7 +57,7 @@ angular.module('technodeApp').directive('autoScrollToBottom', function() {
                     element.animate({
                         scrollTop: element.prop('scrollHeight')
                     }, 1000)
-                })
+                });
         }
     }
 });
@@ -66,20 +66,20 @@ angular.module('technodeApp').directive('ctrlEnterBreakLine', function() {
     return function(scope, element, attrs) {
         var ctrlDown = false;
         element.bind("keydown", function(evt) {
-            if (evt === 17) {
+            if (evt.which === 17) {
                 ctrlDown = true;
                 setTimeout(function() {
                     ctrlDown = false;
                 }, 1000);
             }
-            if (evt === 13) {
+            if (evt.which === 13) {
                 if (ctrlDown) {
                     element.val(element.val() + '\n');
                 } else {
                     scope.$apply(function() {
                         scope.$eval(attrs.ctrlEnterBreakLine);
                     });
-                    element.preventDefault();
+                    evt.preventDefault();
                 }
             }
         })
