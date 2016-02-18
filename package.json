@@ -4,7 +4,12 @@
   "description": "chat with everyone",
   "main": "app.js",
   "dependencies": {
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
     "express": "*",
+    "express-session": "^1.13.0",
+    "gravatar": "^1.4.0",
+    "mongoose": "^4.4.4",
     "socket.io": "*"
   },
   "keywords": [
