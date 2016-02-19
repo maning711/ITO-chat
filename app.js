@@ -3,8 +3,8 @@
  */
 var express = require('express');
 var app = express();
-var bodyParser = require('bodyParser');
-var cookieParser = require('cookieParser');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-Parser');
 var session = require('express-session');
 var Controllers = require('./controllers');
 var path = require('path');
@@ -26,9 +26,9 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: {
-        maxAge： 60 * 1000
+        maxAge: 60 * 1000
     }
-}))；
+}));
 
 app.get('/api/validate', function(req, res) {
     var _userId = req.session._userId;

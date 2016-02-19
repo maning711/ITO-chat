@@ -14,7 +14,7 @@ exports.findUserById = function (_userId, callback) {
 exports.findByEmailOrCreate = function (email, callback) {
     db.User.findOne({
         email: email
-    }, function (null, user) {
+    }, function (err, user) {
         if (user) {
             callback(null, user);
         } else {
