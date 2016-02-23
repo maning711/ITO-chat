@@ -48,7 +48,7 @@ app.get('/api/validate', function(req, res) {
 app.post('/api/login', function(req, res) {
     var email = req.body.email;
     if (email) {
-        Controllers.User.findByEmailOrCreate(email, function(err, email) {
+        Controllers.User.findByEmailOrCreate(email, function(err, user) {
             if (err) {
                 res.json(500, {
                     msg: err

@@ -3,7 +3,7 @@
  */
 angular.module('technodeApp', ['ngRoute']).run(function($window, $rootScope, $http, $location) {
     $http({
-        url: '/ajax/validate',
+        url: '/api/validate',
         method: 'GET'
     }).success(function(user) {
         $rootScope.me = user;
@@ -13,7 +13,7 @@ angular.module('technodeApp', ['ngRoute']).run(function($window, $rootScope, $ht
     });
     $rootScope.logout = function () {
         $http({
-            url: '/ajax/logout',
+            url: '/api/logout',
             method: 'GET'
         }).success(function() {
             $rootScope.me = null;

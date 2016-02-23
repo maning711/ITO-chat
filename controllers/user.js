@@ -15,6 +15,7 @@ exports.findByEmailOrCreate = function (email, callback) {
     db.User.findOne({
         email: email
     }, function (err, user) {
+        debugger;
         if (user) {
             callback(null, user);
         } else {
