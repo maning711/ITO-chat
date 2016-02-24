@@ -39,14 +39,17 @@ app.get('/api/validate', function(req, res) {
                     msg: err
                 });
             } else {
-                res.json(401, null);
+                res.json(user);
             }
         });
+    } else {
+        res.status(401).json(null);
     }
 });
 
 app.post('/api/login', function(req, res) {
     var email = req.body.email;
+    debugger;
     if (email) {
         Controllers.User.findByEmailOrCreate(email, function(err, user) {
             if (err) {
