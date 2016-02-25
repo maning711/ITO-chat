@@ -8,6 +8,11 @@ var cookieParser = require('cookie-Parser');
 var session = require('express-session');
 var Controllers = require('./controllers');
 var path = require('path');
+var signedCookieParser = cookieParser('techcode');
+var MongoStore = require('connect-mongo')(session);
+var sessionStore = new MongoStore({
+    url: 'mongodb://localhost/techcode'
+});
 
 // set server's port
 var port = process.env.PORT || 3000;
@@ -27,13 +32,14 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         maxAge: 60 * 1000
-    }
+    },
+    store: sessionStore
 }));
 
 app.get('/api/validate', function(req, res) {
-    var _userId = req.session._userId;
-    if (_userId) {
-        Controllers.User.findUserById(_userId, function(err, user) {
+    var userId = req.session._userId;
+    if (userId) {
+        Controllers.User.findUserById(userId, function(err, user) {
             if (err) {
                 res.json(401, {
                     msg: err
@@ -84,12 +90,35 @@ var server = app.listen(port, function () {
 
 // io object to listen express server
 var io = require('socket.io').listen(server);
+
+io.use(function(socket, next){
+    var handshakeData = socket.request;
+    signedCookieParser(handshakeData, {}, function(err) {
+        if (err) {
+            next(new Error());
+        } else {
+            sessionStore.get(handshakeData.signedCookies['connect.sid'], function(err, session) {
+                if (err) {
+                    next(new Error(err.message));
+                } else {
+                    handshakeData.session = session;
+                    if (session._userId) {
+                        next();
+                    } else {
+                        next(new Error('No login'));
+                    }
+                }
+            })
+        }
+    })
+});
 io.sockets.on('connection', function (socket) {
     socket.on('getAllMessages', function () {
         socket.emit('allMessages', messages);
     });
     socket.on('createMessage', function (message) {
         messages.push(message);
+        debugger;
         socket.emit('messageAdded', message);
     });
 });

@@ -1,7 +1,8 @@
 /**
  * created by maning
  */
-angular.module('technodeApp', ['ngRoute']).run(function($window, $rootScope, $http, $location) {
+angular.module('technodeApp', ['ngRoute']).
+run(function($window, $rootScope, $http, $location) {
     $http({
         url: '/api/validate',
         method: 'GET'

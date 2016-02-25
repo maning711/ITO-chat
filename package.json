@@ -6,6 +6,7 @@
   "dependencies": {
     "async": "^1.5.2",
     "body-parser": "^1.15.0",
+    "connect-mongo": "^1.1.0",
     "cookie-parser": "^1.4.1",
     "express": "*",
     "express-session": "^1.13.0",
