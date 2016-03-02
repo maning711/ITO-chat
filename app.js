@@ -31,7 +31,7 @@ app.use(session({
     resave: true,
     saveUninitialized: false,
     cookie: {
-        maxAge: 60 * 1000
+        maxAge: 60 * 1000 * 60
     },
     store: sessionStore
 }));
@@ -55,7 +55,6 @@ app.get('/api/validate', function(req, res) {
 
 app.post('/api/login', function(req, res) {
     var email = req.body.email;
-    debugger;
     if (email) {
         Controllers.User.findByEmailOrCreate(email, function(err, user) {
             if (err) {
@@ -118,7 +117,6 @@ io.sockets.on('connection', function (socket) {
     });
     socket.on('createMessage', function (message) {
         messages.push(message);
-        debugger;
         socket.emit('messageAdded', message);
     });
 });

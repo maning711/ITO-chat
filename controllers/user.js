@@ -12,6 +12,7 @@ exports.findUserById = function (_userId, callback) {
 };
 
 exports.findByEmailOrCreate = function (email, callback) {
+    var avatarUrl = "";
     db.User.findOne({
         email: email
     }, function (err, user) {
@@ -21,7 +22,8 @@ exports.findByEmailOrCreate = function (email, callback) {
             user = new db.User;
             user.name = email.split('@')[0];
             user.email = email;
-            user.avatarUrl = gravatar.url(email);
+            avatarUrl = gravatar.url(email);
+            user.avatarUrl = avatarUrl.replace("www.gravatar.com", "gravatar.duoshuo.com");
             user.save(callback);
         }
     });
