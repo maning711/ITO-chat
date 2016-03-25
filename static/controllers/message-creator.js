@@ -3,7 +3,10 @@
  */
 angular.module('technodeApp').controller('MessageCreatorCtrl', function($scope, socket) {
     $scope.createMessage = function () {
-        socket.emit('createMessage', $scope.newMessage)
+        socket.emit('messages.create', {
+            content: $scope.newMessage,
+            creator: $scope.me
+        })
         $scope.newMessage = ''
     }
 });

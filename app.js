@@ -2,10 +2,11 @@
  * created by maning 
  */
 var express = require('express');
-var app = express();
+var async = require('async')
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-Parser');
 var session = require('express-session');
+var app = express();
 var Controllers = require('./controllers');
 var path = require('path');
 var signedCookieParser = cookieParser('techcode');
@@ -111,12 +112,76 @@ io.use(function(socket, next){
         }
     })
 });
-io.sockets.on('connection', function (socket) {
-    socket.on('getAllMessages', function () {
-        socket.emit('allMessages', messages);
-    });
-    socket.on('createMessage', function (message) {
-        messages.push(message);
-        socket.emit('messageAdded', message);
-    });
-});
+
+var SYSTEM = {
+  name: '社内chat',
+  avatarUrl: 'http://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Robot_icon.svg/220px-Robot_icon.svg.png'
+}
+
+io.sockets.on('connection', function(socket) {
+  var _userId = socket.request.session._userId
+  Controllers.User.online(_userId, function(err, user) {
+    if (err) {
+      socket.emit('err', {
+        mesg: err
+      })
+    } else {
+      socket.broadcast.emit('users.add', user)
+      socket.broadcast.emit('messages.add', {
+        content: user.name + '进入了聊天室',
+        creator: SYSTEM,
+        createAt: new Date()
+      })
+    }
+  })
+  socket.on('disconnect', function() {
+    Controllers.User.offline(_userId, function(err, user) {
+      if (err) {
+        socket.emit('err', {
+          mesg: err
+        })
+      } else {
+        socket.broadcast.emit('users.remove', user)
+        socket.broadcast.emit('messages.add', {
+          content: user.name + '离开了聊天室',
+          creator: SYSTEM,
+          createAt: new Date()
+        })
+      }
+    })
+  });
+  socket.on('technode.read', function() {
+    async.parallel([
+
+        function(done) {
+          Controllers.User.getOnlineUsers(done)
+        },
+        function(done) {
+          Controllers.Message.read(done)
+        }
+      ],
+      function(err, results) {
+        if (err) {
+          socket.emit('err', {
+            msg: err
+          })
+        } else {
+          socket.emit('technode.read', {
+            users: results[0],
+            messages: results[1]
+          })
+        }
+      });
+  })
+  socket.on('messages.create', function(message) {
+    Controllers.Message.create(message, function(err, message) {
+      if (err) {
+        socket.emit('err', {
+          msg: err
+        })
+      } else {
+        io.sockets.emit('messages.add', message)
+      }
+    })
+  })
+})
