@@ -73,8 +73,17 @@ app.post('/api/login', function(req, res) {
 });
 
 app.get('/api/logout', function(req, res) {
-    req.session._userId = null;
-    res.json(401);
+    var _userId = req.session._userId
+    Controllers.User.offline(_userId, function(err, user) {
+        if (err) {
+            res.json(500, {
+                msg: err
+            })
+        } else {
+            res.json(200)
+            delete req.session._userId
+        }
+    })
 })
 
 // set static resouces path
